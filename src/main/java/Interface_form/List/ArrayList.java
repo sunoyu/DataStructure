@@ -94,6 +94,57 @@ public class ArrayList<E> implements List<E>
         add(0, value);
     }
 
+    @SuppressWarnings("unchecked")  // 리턴 타입에 대한 Unchecked cast: 'java.lang.Object' to 'E' 경고가 사라짐
+    @Override
+    public E get(int index) {
+        if (index >= size || index < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+        // Object타입에서 E타입으로 캐스팅 후 반환
+        return (E) array[index];
+    }
+
+    @Override
+    public void set(int index, E value) {
+        if (index >= size || index < 0) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            // 해당 위치의 요소를 교체
+            array[index] = value;
+        }
+    }
+
+    @Override
+    public int indexOf(Object value) {
+        for (int i = 0; i < size; i++) {
+            if (array[i].equals(value)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
+    public int lastIndexOf(Object value) {
+        for(int i = size - 1; i >= 0; i--) {
+            if(array[i].equals(value)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
+    @Override
+    public boolean contains(Object value) {
+        // 0 이상이면 요소가 존재한다는 뜻
+        if(indexOf(value) >= 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     @Override
     public E remove(int index) {
         return null;
@@ -104,25 +155,7 @@ public class ArrayList<E> implements List<E>
         return false;
     }
 
-    @Override
-    public E get(int index) {
-        return null;
-    }
 
-    @Override
-    public void set(int index, E value) {
-
-    }
-
-    @Override
-    public boolean contains(Object value) {
-        return false;
-    }
-
-    @Override
-    public int indexOf(Object value) {
-        return 0;
-    }
 
     @Override
     public int size() {
