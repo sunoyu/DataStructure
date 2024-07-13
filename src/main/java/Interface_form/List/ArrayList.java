@@ -2,6 +2,7 @@ package Interface_form.List;
 
 import Interface_form.List;
 
+import java.security.PublicKey;
 import java.util.Arrays;
 
 public class ArrayList<E> implements List<E>
@@ -58,9 +59,39 @@ public class ArrayList<E> implements List<E>
         return false;
     }
 
+    public void addLast(E value) {
+        // 꽉차있는 상태라면 용적 재할당
+        if (array.length == size) {
+            resize();
+        }
+        array[size] = value; // 마지막 위치에 요소 추가
+        size++; // 리스트의 사이즈 1증가
+    }
+
     @Override
     public void add(int index, E value) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (index == size) { // inDex가 마지막 위치라면 addLast로
+            addLast(value);
+        }
+        else {
+            if (size == array.length) { // 꽉차있다면 용적 재할당
+                resize();
+            }
 
+            // index 기준 후자에 있는 모든 요소를 한칸씩 뒤로 밀어준다.
+            for (int i = size; i > index; i--) {
+                array[i] = array[i-1];
+            }
+            array[index] = value;
+            size++;
+        }
+    }
+
+    public void arrayFirst(E value) {
+        add(0, value);
     }
 
     @Override
