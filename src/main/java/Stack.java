@@ -50,7 +50,7 @@ public class Stack<E> implements StackInterface<E> {
             int newCapacity = arrayCapacity / 2;
 
             // 배열 복사
-            arrays = Arrays.copyOf(array, Math.max(DEFAULT_CAPACITY, newCapacity));
+            array = Arrays.copyOf(array, Math.max(DEFAULT_CAPACITY, newCapacity));
             return;
         }
     }
@@ -98,30 +98,53 @@ public class Stack<E> implements StackInterface<E> {
     }
 
 
-
+    @SuppressWarnings("unchecked")
     @Override
     public E peek() {
-        return null;
+        if (size == 0) {
+            throw new EmptyStackException();
+        }
+        return (E) array[size - 1];
     }
 
     @Override
-    public E search(Object value) {
-        return null;
+    public int search(Object value) {
+        // value가 null일 때는 eqauls(null)이되어 null pointer exception이 발생할 수 있으니,
+        // == 로 null값을 비교해준다.
+        if (value == null) {
+            for (int idx = size - 1; idx >= 0; idx--) {
+                if (array[idx]==(value)) {
+                    return size - idx;
+                }
+            }
+        } else {
+            for (int idx = size - 1; idx >= 0; idx--) {
+                if (array[idx].equals(value)) {
+                    // 같은 객체를 찾았을 경우 size-idx 반환.
+                    return size - idx;
+                }
+            }
+        }
+        return -1;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
     public void clear() {
-
+        for (int i = 0; i < size; i++) {
+            array[i] = null;
+        }
+        size = 0;
+        resize();
     }
 
     @Override
-    public boolean empty() {
-        return false;
+    public boolean isEmpty() {
+        return size == 0;
     }
 }
 

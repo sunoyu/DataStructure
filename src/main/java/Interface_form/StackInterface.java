@@ -36,7 +36,7 @@ public interface StackInterface<E> {
     * @return 스택 상단부터 처음으로 요소와 일치하는 위치를 반환
     *         만약 일치하는 요소가 없는경우 -1 반환.
     * */
-    E search(Object value);
+    int search(Object value);
 
     /*
     * 스택의 요소 갯수를 반환한다.
@@ -55,6 +55,6 @@ public interface StackInterface<E> {
     * 스택이 비어있는지 반환합니다.
     * @return 스택의 요소가 있는경우 {@code true}, 그 외의 경우 {@code false}
     * */
-    boolean empty();
+    boolean isEmpty();
 
 }
