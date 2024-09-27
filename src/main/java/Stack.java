@@ -4,6 +4,7 @@
 import Interface_form.StackInterface;
 
 import java.util.Arrays;
+import java.util.EmptyStackException;
 
 public class Stack<E> implements StackInterface<E> {
     private static final int DEFAULT_CAPACITY = 10;  // 최소(기본) 용적크기
@@ -69,8 +70,34 @@ public class Stack<E> implements StackInterface<E> {
 
     @Override
     public E pop() {
-        return null;
+
+        // 만약 삭제할 요소가 없다면 Stack이 비었다는 의미이므로 예외 발생시키기
+        if(size == 0) {
+            throw new EmptyStackException();
+        }
+
+        @SuppressWarnings("unchecked")
+        E obj = (E) array[size - 1];
+        /*
+        * @SuppressWarnings("unchecked")을 붙이지 않으면 type safe(타입 안정성)에 대해 경고를 보낸다.
+        * 반환되는 것을 보면 E 타입으로 캐스팅을 하고 있고 그 대상이 되는 것은 Object[] 배열의 Object 데이터다.
+        * 즉, Object -> E 타입으로 변환을 하는 것인데 이 과정에서 변환할 수 없는 타입을 가능성이 있다는 경고로 메소드 옆에 경고표시가 뜨는데,
+        * 우리가 push하여 받아들이는 데이터 타입은 유일하게 E 타입만 존재한다.
+        * 그렇기 때문에 형 안정성이 보장된다.
+        * 한마디로 ClassCastException이 뜨지 않으니 이 경고들을 무시하겠다는 것이
+        * @SuppressWarnings("unchecked") 이다.
+        * 물론 절대 남발하면 안되고, 형 변환시 예외 가능성이 없을 확실한 경우에 최소한의 범위에서 써주는 것이 좋다.
+        * 그렇지 않으면 중요한 경고 메세지를 놓칠 수도 있기 때문이다.
+        * */
+
+        array[size - 1] = null; // 요소 삭제
+        size--;
+        resize(); // 용적 재할당
+
+        return obj;
     }
+
+
 
     @Override
     public E peek() {
