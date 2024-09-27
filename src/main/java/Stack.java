@@ -55,5 +55,46 @@ public class Stack<E> implements StackInterface<E> {
     }
 
 
+    @Override
+    public E push(E item) {
+        // 용적이 풀로 꽉차있다면 리사이즈 (동적할당)
+        if (size == array.length) {
+            resize();
+        }
+        array[size] = item; // 마지막 위치에 요소 추가
+        size++; // 사이즈 1증가
+
+        return item;
+    }
+
+    @Override
+    public E pop() {
+        return null;
+    }
+
+    @Override
+    public E peek() {
+        return null;
+    }
+
+    @Override
+    public E search(Object value) {
+        return null;
+    }
+
+    @Override
+    public int size() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
+    public boolean empty() {
+        return false;
+    }
 }
 
