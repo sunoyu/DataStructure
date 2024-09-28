@@ -83,7 +83,7 @@ public class SinglyLinkedList<E> implements List<E>
 
         prevNode = null;
         prevNode.next = newNode;
-        newNod.next = nextNode;
+        newNode.next = nextNode;
         size++;
     }
 
@@ -183,38 +183,60 @@ public class SinglyLinkedList<E> implements List<E>
         }
     }
 
+    /*
+    노드의 데이터 반환
+    그리고 search() 내부에서 잘못된 위치일 경우 예외를 던지기 때문에 따로 예외처리를 해줄 필요는 없다.
+    */
     @Override
     public E get(int index) {
-        return null;
+        return search(index).data;
     }
 
+    // index에 위치한 데이터를 교체하는 것
     @Override
     public void set(int index, E value) {
-
-    }
-
-    @Override
-    public boolean contains(Object value) {
-        return false;
+        Node<E> replaceNode = search(index);
+        replaceNode.data = null;  // 그냥 명시적으로 추가
+        replaceNode.data = value;
     }
 
     @Override
     public int indexOf(Object value) {
-        return 0;
+        int index = 0;
+        for (Node<E> x = head; x!= null; x = x.next) {
+            if (x.data.equals(value)) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
+    }
+
+    @Override
+    public boolean contains(Object value) {
+        return indexOf(value) != -1;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     @Override
     public void clear() {
+        for (Node<E> x = head; x != null;) {
+            Node<E> nextNode = x.next;
+            x.data = null;
+            x.next = null;
+            x = nextNode;
+        }
+        head = tail = null;
+        size = 0;
 
     }
 }
